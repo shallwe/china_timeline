@@ -3,6 +3,8 @@
 import argparse
 from tornado import httpserver, ioloop
 
+from server.main import application
+
 if __name__ == "__main__":
     import logging
     logging.getLogger().setLevel(logging.DEBUG)

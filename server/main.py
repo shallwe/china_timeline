@@ -7,7 +7,7 @@ from jinja2 import Environment, FileSystemLoader
 from raven.contrib.tornado import AsyncSentryClient
 from tornado.web import StaticFileHandler
 
-# from .handlers import admin, user, pay, team
+from .handlers import front
 from .settings import COOKIE_SECRET, SENTRY_DSN, DEBUG
 
 
@@ -27,7 +27,8 @@ class Jinja2TemplateLoader(template.Loader):
 
 
 routes = [
-    (r"/", admin.login.AdminLogin),
+    (r"/", front.IndexHandler),
+    (r"/content", front.ContentHandler),
     (r"/templates/(.*?)", StaticFileHandler, dict(path=os.path.join(PACKAGE_FOLDER, 'templates'))),
 ]
 
