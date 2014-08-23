@@ -1,7 +1,9 @@
 #coding: utf-8
 import json
+from bson import ObjectId
 
 from .base import BaseRequestHandler
+from .mongo import db
 
 class IndexHandler(BaseRequestHandler):
     def get(self, *args, **kwargs):
@@ -71,3 +73,47 @@ class ContentHandler(BaseRequestHandler):
         }
         # self.respond_json(result)
         self.write(json.dumps(result))
+
+
+class Project(BaseRequestHandler):
+    def get(self, *args, **kwargs):
+        url = kwargs.get('url')
+        project = db.Project.find_one({"url": url})
+        if project:
+            self.render('project.html', project=project)
+        else:
+            self.render('index.html')
+
+
+class ProjectInfo(BaseRequestHandler):
+    def get(self, *args, **kwargs):
+        project_id = ObjectId(self.get_argument('project_id'))
+        project = db.Project.find_one(project_id)
+        cards = db.Card.find({"project_id": project_id})
+        ret_json = {
+            "timeline":
+            {
+                "headline": project.title,
+                "type": "default",
+                "text": project.desc,
+                "startDate": self.render_date(project.start),
+                "date": []
+            }
+        }
+        card_list = []
+        for card in cards:
+            card_list.append({
+                "startDate": self.render_date(card.start),
+                "endDate": self.render_date(card.end),
+                "headline": card.title,
+                "text": card.desc,
+                "asset":
+                {
+                    "media": card.media.src,
+                    "credit": card.media.desc,
+                    "caption": card.media.title
+                }
+            })
+        ret_json['timeline']['date'] = card_list
+        self.respond_json(ret_json)
+

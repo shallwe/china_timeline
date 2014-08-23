@@ -1,0 +1,54 @@
+body {
+  font-size: 12px;
+}
+.wrapper {
+  margin: 0 5px;
+}
+table th.sortable {
+  color: blue;
+  cursor: pointer;
+}
+table td b,
+table td span {
+  font-family: tahoma;
+}
+#date-picker {
+  float: right;
+  margin-top: -60px;
+  margin-right: 20px;
+}
+.label {
+  font-weight: normal;
+}
+.bar {
+  display: inline-block;
+  background-color: #fff;
+  width: 7px;
+  height: 20px;
+  border: 1px solid #555;
+  margin-left: 1px;
+}
+.bar .bar-inner {
+  background: black;
+}
+tr.group-begin > td {
+  border-top: 1px solid green!important;
+}
+.green {
+  color: green;
+}
+.red {
+  color: darkred;
+}
+.list-div {
+  border-right: 1px solid #245269;
+}
+.chart.affix {
+  position: fixed;
+  top: 0px;
+  background-color: #ffffff;
+  width: 100%;
+}
+.progress {
+  margin: 0;
+}

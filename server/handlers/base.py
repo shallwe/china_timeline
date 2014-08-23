@@ -9,6 +9,8 @@ from bson import ObjectId
 from tornado.web import RequestHandler
 from raven.contrib.tornado import SentryMixin
 
+from .mongo import db
+
 logger = logging.getLogger('h.base')
 logger.setLevel(logging.DEBUG)
 FORMAT = '%(asctime)-15s %(name)-15s %(levelname)-5s: %(message)s'
@@ -62,10 +64,19 @@ class BaseRequestHandler(SentryMixin, RequestHandler):
             date = datetime.strptime(date_string, '%Y-%m-%d')
         return date
 
-# class BaseAdminHandler(BaseRequestHandler):
-#     def prepare(self):
-#         operator = self.get_secure_cookie('hx_god')
-#         if operator and operator.decode() in GOD_NAMES:
-#             self.operator = operator.decode()
-#         else:
-#             self.redirect('/hote/login?callback=%s' % self.request.full_url())
+    def render_date(self, _date):
+        ret_str = "{}".format(_date.year)
+        if _date.month != 0:
+            ret_str += ",{}".format(_date.month)
+            if _date.day != 0:
+                ret_str += ",{}".format(_date.day)
+        return ret_str
+
+
+class BaseAdminHandler(BaseRequestHandler):
+    def prepare(self):
+        _id = self.get_secure_cookie('_id')
+        if _id:
+            self.current_user = db.User.find_one(ObjectId(_id))
+        else:
+            self.redirect('/hote/login?callback=%s' % self.request.full_url())

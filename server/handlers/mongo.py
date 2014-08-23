@@ -32,10 +32,11 @@ class User(BaseDocument):
 class Project(Document):
     __colection__ = project_coll.name
     structure = {
+        'url': str,
         'name': str,
         'desc': str,
         'owner': ObjectId,
-        'start_date': {
+        'start': {
             'year': int,
             'month': int,
             'day': int
@@ -49,19 +50,30 @@ class Card(BaseDocument):
         "project_id": ObjectId,
         "title": str,
         "desc": str,
-        "media": str,
-        "media_desc": str,
-        "media_title": str,
-        "start_date": {
+
+        "media": {
+            "src": str,
+            "desc": str,
+            "title": str,
+        },
+
+        "start": {
             "year": int,
             "month": int,
             "day": int
         },
-        "end_date": {
+
+        "end": {
             "year": int,
             "month": int,
             "day": int
         },
     }
 
+    default_values = {
+        'start_date.month': 0,
+        'start_date.day': 0,
+        'end_date.month': 0,
+        'end_date.day': 0
+    }
 
