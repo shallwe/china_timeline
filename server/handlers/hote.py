@@ -33,7 +33,7 @@ class LoginHandler(BaseRequestHandler):
         return self.redirect('/hote')
 
 
-class RegisterHandler(BaseAdminHandler):
+class RegisterHandler(BaseRequestHandler):
     def post(self, *args, **kwargs):
         name = self.get_argument('name')
         password = self.get_argument('password')

@@ -75,7 +75,7 @@ class BaseRequestHandler(SentryMixin, RequestHandler):
 
 class BaseAdminHandler(BaseRequestHandler):
     def prepare(self):
-        _id = self.get_secure_cookie('_id')
+        _id = self.get_secure_cookie('_id').decode()
         if _id:
             self.current_user = db.User.find_one(ObjectId(_id))
         else:
