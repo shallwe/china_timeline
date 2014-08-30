@@ -82,9 +82,9 @@ class Card(BaseDocument):
     }
 
     default_values = {
-        'start_date.month': 0,
-        'start_date.day': 0,
-        'end_date.month': 0,
-        'end_date.day': 0
+        'start.month': 0,
+        'start.day': 0,
+        'end.month': 0,
+        'end.day': 0
     }
 

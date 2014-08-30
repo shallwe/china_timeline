@@ -71,6 +71,12 @@ class ListProject(BaseAdminHandler):
         self.respond_json({"projects": projects})
 
 
+class ProjectInfo(BaseAdminHandler):
+    def get(self, *args, **kwargs):
+        url = kwargs.get('url')
+        project = db.Project.find_one({"url": url})
+        return self.render('hote/project.html', project=project)
+
 class AddProject(BaseAdminHandler):
     def post(self, *args, **kwargs):
         project = db.Project()
@@ -87,7 +93,7 @@ class AddProject(BaseAdminHandler):
 class ListCard(BaseAdminHandler):
     def get(self, *args, **kwargs):
         project_id = self.get_argument('project_id')
-        cards = db.Card.find({"project_id": ObjectId(project_id)})
+        cards = list(db.Card.find({"project_id": ObjectId(project_id)}))
         self.render('hote/cards.html', cards=cards)
 
 

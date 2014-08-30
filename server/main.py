@@ -29,7 +29,12 @@ class Jinja2TemplateLoader(template.Loader):
 routes = [
     (r"/", front.IndexHandler),
     (r"/content", front.ContentHandler),
-    (r"/project/(?P<url>.*?)", front.Project),
+
+
+
+    # (r'/i/(?P<code>.*)', front.Project),
+
+    (r'/project/(?P<url>.*)', front.Project),
     (r"/project/info", front.ProjectInfo),
 
     (r"/hote/login", hote.LoginHandler),
@@ -40,6 +45,8 @@ routes = [
     (r"/hote", hote.IndexHandler),
     (r"/hote/list_project", hote.ListProject),
     (r"/hote/add_project", hote.AddProject),
+    (r"/hote/add_project", hote.AddProject),
+    (r'/hote/project/(?P<url>.*)', hote.ProjectInfo),
     (r"/hote/list_card", hote.ListCard),
     (r"/hote/add_card", hote.AddCard),
 

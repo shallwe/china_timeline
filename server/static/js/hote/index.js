@@ -15,12 +15,12 @@
   CreateProjectController = function($scope, $rootScope, $http) {
     return $scope.createProject = function() {
       return $http.post('/add_project', {
-        url: $scope.project_url,
-        name: $scope.project_name,
-        desc: $scope.project_desc,
-        year: $scope.start_year,
-        month: $scope.start_month,
-        day: $scope.start_day
+        url: $scope.projectUrl,
+        name: $scope.projectName,
+        desc: $scope.projectDesc,
+        year: $scope.startYear,
+        month: $scope.startMonth,
+        day: $scope.startDay
       }).success(function(data) {
         return initIndex();
       });
