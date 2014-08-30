@@ -1,6 +1,7 @@
 #coding: utf-8
 from bson import ObjectId
 from mongokit import Document, Connection
+from hashlib import md5
 
 conn = Connection()
 db = conn.timeline
@@ -27,6 +28,16 @@ class User(BaseDocument):
         'password_hash': str,
         'role': str,
     }
+
+    default_values = {
+        'role': 'user'
+    }
+
+    @classmethod
+    def hash_password(cls, password, name):
+        password_with_salt = "{}-{}-{}".format(password, 'tlwj906', name)
+        password_hash = md5(password_with_salt.encode()).hexdigest()
+        return password_hash
 
 @conn.register
 class Project(Document):

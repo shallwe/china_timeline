@@ -33,7 +33,11 @@ routes = [
     (r"/project/info", front.ProjectInfo),
 
     (r"/hote/login", hote.LoginHandler),
+    (r"/hote/register", hote.RegisterHandler),
     (r"/hote/logout", hote.LogoutHandler),
+
+
+    (r"/hote", hote.IndexHandler),
     (r"/hote/list_project", hote.ListProject),
     (r"/hote/add_project", hote.AddProject),
     (r"/hote/list_card", hote.ListCard),

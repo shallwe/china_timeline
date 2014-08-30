@@ -30,18 +30,37 @@ class LoginHandler(BaseRequestHandler):
             })
 
         self.set_secure_cookie('_id', str(user._id))
-        return self.redirect('/team')
+        return self.redirect('/hote')
 
+
+class RegisterHandler(BaseAdminHandler):
+    def post(self, *args, **kwargs):
+        name = self.get_argument('name')
+        password = self.get_argument('password')
+
+        if name:
+            name = name.lower()
+
+        user = db.User.find_one({"name": name})
+        if user:
+            return self.finish('该用户名已存在')
+
+        user = db.User()
+        user.name = name
+        user.password_hash = User.hash_password(password, name)
+        user.save()
+        self.set_secure_cookie('_id', str(user._id))
+        return self.redirect('/hote')
 
 class LogoutHandler(BaseRequestHandler):
     def get(self, *args, **kwargs):
         self.set_secure_cookie('_id', '', -1)
-        self.redirect('/team')
+        self.redirect('/hote/login')
 
 
 class IndexHandler(BaseAdminHandler):
     def get(self, *args, **kwargs):
-        self.render('team/index.html', user=self.current_user)
+        self.render('hote/index.html', user=self.current_user)
 
 
 class ListProject(BaseAdminHandler):
