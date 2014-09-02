@@ -40,7 +40,7 @@ class User(BaseDocument):
         return password_hash
 
 @conn.register
-class Project(Document):
+class Project(BaseDocument):
     __collection__ = project_coll.name
     structure = {
         'url': str,

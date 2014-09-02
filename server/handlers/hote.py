@@ -67,7 +67,7 @@ class ListProject(BaseAdminHandler):
     def get(self, *args, **kwargs):
         projects = list(db.Project.find({"owner": self.current_user._id}))
         for project in projects:
-            project['card_num'] = db.Card.find({"project"})
+            project['card_num'] = db.Card.find({"project_id": project._id}).count()
         self.respond_json({"projects": projects})
 
 
@@ -75,7 +75,7 @@ class ProjectInfo(BaseAdminHandler):
     def get(self, *args, **kwargs):
         url = kwargs.get('url')
         project = db.Project.find_one({"url": url})
-        return self.render('hote/project.html', project=project)
+        return self.render('hote/project.html', project=project, user=self.current_user)
 
 class AddProject(BaseAdminHandler):
     def post(self, *args, **kwargs):
@@ -83,6 +83,7 @@ class AddProject(BaseAdminHandler):
         project.url = self.get_argument('url')
         project.name = self.get_argument('name')
         project.desc = self.get_argument('desc')
+        project.owner = self.current_user._id
         project.start.year = int(self.get_argument('year'))
         project.start.month = int(self.get_argument('month', 0))
         project.start.day = int(self.get_argument('day', 0))

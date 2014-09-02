@@ -2,7 +2,7 @@ filters = {}
 initIndex = ($rootScope, $http) ->
 
     $http.get('/hote/list_project').success (data) ->
-        $rootScope.project_list = data.project_list
+        $rootScope.projects = data.projects
 
 
 ProjectListController = ($scope, $rootScope) ->

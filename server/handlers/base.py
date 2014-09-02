@@ -6,7 +6,7 @@ import logging
 import time
 
 from bson import ObjectId
-from tornado.web import RequestHandler
+from tornado.web import RequestHandler, MissingArgumentError
 from raven.contrib.tornado import SentryMixin
 
 from .mongo import db
@@ -72,6 +72,15 @@ class BaseRequestHandler(SentryMixin, RequestHandler):
                 ret_str += ",{}".format(_date.day)
         return ret_str
 
+    def prepare(self):
+        if not self.request.arguments and self.request.body:
+            body = json.loads(self.request.body.decode())
+            NOMEAN = "NOMEAN_ARG"
+            def my_get_argument(name, val=NOMEAN):
+                if body.get(name, val) == NOMEAN:
+                    raise MissingArgumentError(name)
+                return body.get(name, val)
+            self.get_argument = my_get_argument
 
 class BaseAdminHandler(BaseRequestHandler):
     def prepare(self):
@@ -80,3 +89,4 @@ class BaseAdminHandler(BaseRequestHandler):
             self.current_user = db.User.find_one(ObjectId(_id.decode()))
         else:
             self.redirect('/hote/login?callback=%s' % self.request.full_url())
+        BaseRequestHandler.prepare(self)

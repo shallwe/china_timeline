@@ -6,7 +6,7 @@
 
   initIndex = function($rootScope, $http) {
     return $http.get('/hote/list_project').success(function(data) {
-      return $rootScope.project_list = data.project_list;
+      return $rootScope.projects = data.projects;
     });
   };
 
