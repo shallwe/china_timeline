@@ -41,7 +41,7 @@ class User(BaseDocument):
 
 @conn.register
 class Project(Document):
-    __colection__ = project_coll.name
+    __collection__ = project_coll.name
     structure = {
         'url': str,
         'name': str,

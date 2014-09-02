@@ -1,7 +1,7 @@
 filters = {}
 initIndex = ($rootScope, $http) ->
 
-    $http.get('/hote/project_list').success (data) ->
+    $http.get('/hote/list_project').success (data) ->
         $rootScope.project_list = data.project_list
 
 
@@ -10,7 +10,7 @@ ProjectListController = ($scope, $rootScope) ->
 CreateProjectController = ($scope, $rootScope, $http) ->
     $scope.createProject = ->
         $http.post(
-            '/add_project',
+            '/hote/add_project',
             {
                 url: $scope.projectUrl
                 name: $scope.projectName

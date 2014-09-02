@@ -5,7 +5,7 @@
   filters = {};
 
   initIndex = function($rootScope, $http) {
-    return $http.get('/hote/project_list').success(function(data) {
+    return $http.get('/hote/list_project').success(function(data) {
       return $rootScope.project_list = data.project_list;
     });
   };
@@ -14,7 +14,7 @@
 
   CreateProjectController = function($scope, $rootScope, $http) {
     return $scope.createProject = function() {
-      return $http.post('/add_project', {
+      return $http.post('/hote/add_project', {
         url: $scope.projectUrl,
         name: $scope.projectName,
         desc: $scope.projectDesc,
@@ -44,3 +44,5 @@
   });
 
 }).call(this);
+
+//# sourceMappingURL=index.map
